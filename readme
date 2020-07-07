@@ -1,0 +1,89 @@
+Trabalho Final de Grafos
+
+#Para o funcionamento do código é necessário:
+1 - Python3 instalado e configurado
+2 - Os arquivos 'vertices.txt' e 'arestas.txt'
+	2.1 - O arquivo 'vertices.txt' deve conter TODOS os vertices do grafo a ser lido, sem repetições ou erros
+	2.2 - O arquivo 'arestas.txt' deve conter TODAS as arestas, nesta ordem:
+		> Na primeira linha, True se for um grafo direcionado. False se for um grafo não-direcionado
+		> Nas linhas subsequentes, deve se por respectivamente: vértice de origem,vértice de destino (ex.: 0,1)
+		> Caso o grafo seja valorado, na mesma linha logo após a aresta deve se por o peso (ex.: 0,1,4)
+		2.2.1 - Caso o grafo seja não-direcionado, não é necessário colocar as arestas de ida e volta, o código irá duplicar (ex.: 0,1 (ida, necessária) 1,0 (volta, não necessária))
+			> O mesmo não se aplica se for um multigrafo, já que cada aresta é diferente (ex.: multigrafo de (0,1) = 0,1/0,1 (necessario os dois, cada em um linha)
+3 - Caso deseje rodar no prompt do Windows, tenha o Python3 como o default para abrir arquivos .py, ou execute o comandos abaixo:
+	> Tenha certeza que os arquivos .txt e .py (código) estejam numa mesma pasta
+	> Abra uma tela do prompt diretamente na pasta (Shift+clique auxiliar > Abrir janela do PowerShell/prompt aqui)
+	> digite 'py TrabFinalGrafos.py' (sem aspas)
+	> Deve estar sendo executado essa altura (melhor para visualizar, pois a função os.system('cls') - 'limpar a tela' - só funciona no prompt)
+
+#Representação do grafo
+O grafo está sendo lido e salvo num dicionário do Python da seguinte forma
+{'vértice':(['aresta'(ligada ao vértice), peso(1 para grafos não valorados)],..}
+Sendo:
+	vértice = uma string indentificadora do vértice, chave do dicionário
+	([],) = uma tupla contendo uma lista que contém aresta e peso, podem ser várias por chave ou nenhuma
+	aresta = uma string identificadora do vértice que esta ligado, é o index 0 da lista
+	peso = um peso em inteiro dada a aresta, é o index 1 da lista
+	
+#O QUE AS FUNÇÕES FAZEM?
+1 - ler_grafo()
+Lê os arquivos para inicializar o código.
+Caso o código não esteja funcionando corretamente, verifique os arquivos.
+
+2 - PrintGrafo()
+Quando chamada, imprime um grafo em forma de lista de adjacência
+
+3 - buscar_aresta()
+Busca uma ligação no grafo entre um vértice de origem e de destino e retorna tanto adjacentes de entrada como de saida
+
+4 - grau()
+Le a chave do vertice dado para o grau de saída e busca o dado vértice nas outras chaves para o grau de entrada.
+Se for um grafo nao-direcionado o retorno do valor do grau é dividido por 2 para exibição correta
+
+5 - adjacencia()
+Dado um vértice, caso o mesmo tenha ligações com outros (ou seja, sua chave no dicionario não seja vazia) é colocado num vetor o indicador desses vértice e o retorna.
+Para grafos direcionados, é importante notar que vértice(u) é adjacente a um vértice(w) caso u aponte para outro vértice (w) - (u,w) - chamado de adjacente de saída.
+Se (w) apontar para (u) - (w,u) - essa adjacência é chamada de adjacente de entrada, e é registrado também apenas para os fins da função conexos().
+
+6 - ciclico()
+Faz uma busca em largura com BuscaEmProfundidade() para verificar aresta de retorno, se houver a função informa que é ciclico
+
+7 - conexos()
+Verifica se cada vertice tem pelo menos uma ligação entre outro vertice através dos adjacentes de entrada e saída da função adjacencia() (Grafos não-direcionados se comportam da mesma forma dada a codificação).
+Se um vértice nao tiver nenhuma ligaçao, a função informa que é desconexo
+
+8 - ComponentesConexos()
+Verifica passo a passo quantos e quais os componentes conexos do grafo.
+Utiliza PrintarValores(), transposto() como funções aninhadas (que serão usadas exclusivamente pela função principal) para resolução
+	8.1 - PrintarValores()
+	Printa os vértice com indices de inicio e termino e seu antecessor
+	8.2 - transposto()
+	Cria um grafo transposto de G
+
+9 - BuscaEmProfundidade()
+Inicialização do dict que guarda a busca em profundidade em um grafo, além de fazer a primeira busca vindo de ComponentesConexos().
+
+10 - visitaBuscaEmProfundidade()
+Visita a cada vértice recursivamente para busca em profundidade. Além de verificar aresta de retorno
+
+11 - euleriano()
+Verifica todos os vértices tem grau par usando o retorno de grau()
+
+12 - dijkstra()
+Busca e mostra o caminho de uma fonte até um vértice escolhido previamente. (O mesmo algoritmo é usado para grafos não ponderados, nesses casos as arestas estão com peso de 1)
+Utiliza init_fonte(), relax() e iteracao() como funções aninhadas
+	12.1 - init_fonte()
+	Inicializa um dict com todos os vértices com antecessor = Nulo e estimativa = infinito, exceto a fonte que tem estimativa = 0
+	12.2 - relax()
+	Tenta relaxar os vértices adjacentes ligados ao anterior, a estimativa do vértice adjacente deve ser maior que a estimativa do vértice anterior + o peso da aresta que liga os dois vértices
+	12.3 - iteracao()
+	Mostra cada iteração da execução do algoritmo de Dijkstra, mostrando o vértice, antecessores e estimativas
+
+13 - AGM()
+Cria uma árvore geradora minima com o algoritmo de Prim num grafo não direcionado e conexo, mostrando os passos e ao final o peso
+	12.1 - init_fonte()
+	Inicializa um dict com todos os vértices com antecessor = Nulo e estimativa = infinito, exceto a fonte que tem estimativa = 0
+	12.2 - iteracao()
+	Mostra cada iteracao da execução do algoritmo de Prim, mostrando vértice, estimativa e antecessor
+	12.3 - PrintarAGM()
+	Mostra apenas as ligacões que fazem parte da árvore geradora miníma a cada iteração, ao fim quando mostrar o peso da árvore a ultima chamada de PrintarAGM() mostra a árvore finalizada
