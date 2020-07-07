@@ -87,3 +87,7 @@ Cria uma árvore geradora minima com o algoritmo de Prim num grafo não direcion
 	Mostra cada iteracao da execução do algoritmo de Prim, mostrando vértice, estimativa e antecessor
 	12.3 - PrintarAGM()
 	Mostra apenas as ligacões que fazem parte da árvore geradora miníma a cada iteração, ao fim quando mostrar o peso da árvore a ultima chamada de PrintarAGM() mostra a árvore finalizada
+
+
+
+PS: Pode não ser o código mais bonito, nem o mais funcional, nem o mais bem escrito, mas funciona pro proposto
